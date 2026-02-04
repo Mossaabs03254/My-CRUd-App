@@ -19,22 +19,29 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
 
-    try {
-      const data = await authService.login({ email, password });
+  try {
+    // We keep using your 'email' and 'password' variables, 
+    // but we send 'email' under the key 'username' which the NestJS DTO expects.
+    const data = await authService.login({ 
+      username: email, // This is the fix!
+      password: password 
+    });
 
-      // If API returned user info, use it. Otherwise try fetching profile.
-      let profile = (data && (data as any).user) || null;
-      if (!profile) {
-        try {
-          profile = await authService.getProfile();
-        } catch (_) {
-          profile = null;
-        }
+    console.log('data', data);
+
+    // If API returned user info, use it. Otherwise try fetching profile.
+    let profile = (data && (data as any).user) || null;
+    if (!profile) {
+      try {
+        profile = await authService.getProfile();
+      } catch (_) {
+        profile = null;
       }
+    }
 
       const user = profile
         ? {
@@ -90,7 +97,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 </div>
                 <input
                   required
-                  type="email"
+                  type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-sm transition-all dark:text-white"

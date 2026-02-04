@@ -1,6 +1,6 @@
 import { User } from "../types";
 
-const BASE_URL = "https://192.168.130.102:3000";
+const BASE_URL = "http://localhost:5000";
 
 export const TOKEN_KEY = "token";
 console.log("Token Key:", TOKEN_KEY);

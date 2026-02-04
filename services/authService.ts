@@ -2,7 +2,7 @@ import { request, setToken, clearToken, getToken } from "./api";
 
 export const authService = {
   async login(credentials: Record<string, any>) {
-    const data = await request<{ token?: string; user?: any }>("/auth/login", {
+    const data = await request<{ token?: string; user?: any }>("/auth/signin", {
       method: "POST",
       body: JSON.stringify(credentials),
     });
