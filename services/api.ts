@@ -1,6 +1,6 @@
 import { User } from "../types";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://294fdb3875b0.ngrok-free.app";
 
 export const TOKEN_KEY = "token";
 console.log("Token Key:", TOKEN_KEY);

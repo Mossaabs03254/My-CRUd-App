@@ -12,36 +12,36 @@ interface LoginPageProps {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState("admin@elite.com");
-  const [password, setPassword] = useState("password123");
+  const [email, setEmail] = useState("user1@gmail.com");
+  const [password, setPassword] = useState("123");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setError(null);
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-  try {
-    // We keep using your 'email' and 'password' variables, 
-    // but we send 'email' under the key 'username' which the NestJS DTO expects.
-    const data = await authService.login({ 
-      username: email, // This is the fix!
-      password: password 
-    });
+    try {
+      // We keep using your 'email' and 'password' variables,
+      // but we send 'email' under the key 'username' which the NestJS DTO expects.
+      const data = await authService.login({
+        username: email, // This is the fix!
+        password: password,
+      });
 
-    console.log('data', data);
+      console.log("data", data);
 
-    // If API returned user info, use it. Otherwise try fetching profile.
-    let profile = (data && (data as any).user) || null;
-    if (!profile) {
-      try {
-        profile = await authService.getProfile();
-      } catch (_) {
-        profile = null;
+      // If API returned user info, use it. Otherwise try fetching profile.
+      let profile = (data && (data as any).user) || null;
+      if (!profile) {
+        try {
+          profile = await authService.getProfile();
+        } catch (_) {
+          profile = null;
+        }
       }
-    }
 
       const user = profile
         ? {
